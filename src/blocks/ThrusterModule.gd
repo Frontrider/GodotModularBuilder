@@ -11,9 +11,11 @@ func _physics_process(delta):
 	#on the main body
 	if Input.is_action_pressed("ui_accel"):
 		var torque_vec = -transform.origin.normalized().cross(-transform.basis.y)
-		emit_signal("block_impulse_add", block_force_direction*engine_force, transform.origin)
-		#emit_signal("block_torque_add", torque_vec*engine_force, transform.origin)
-		#print(str(transform.origin) + "|" + str(block_force_direction) + "|" + str(torque_vec))
+		#Using direction_to it works as intended
+		emit_signal(
+			"block_impulse_add", 
+			block_force_direction*engine_force, 
+			get_parent().global_transform.origin.direction_to(global_transform.origin))
 		$Smoke.emitting = true
 		pass
 	else:
